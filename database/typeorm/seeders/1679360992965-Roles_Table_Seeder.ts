@@ -4,15 +4,14 @@ import { MigrationInterface, QueryRunner } from "typeorm"
 export class RolesTableSeeder1679360992965 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        const roles: Partial<Role>[] = [];
-
-        roles.push(new Role({
-            name: 'root',
-        }));
-        
-        roles.push(new Role({
-            name: 'member',
-        }));
+        const roles: Partial<Role>[] = [
+            new Role({
+                name: 'root',
+            }),
+            new Role({
+                name: 'member',
+            })
+        ];
 
         await queryRunner.connection
             .getRepository(Role)
