@@ -1,16 +1,7 @@
-import {
-	BeforeInsert,
-	Column,
-	CreateDateColumn,
-	DeleteDateColumn,
-	Entity,
-	JoinTable,
-	ManyToMany,
-	PrimaryColumn,
-	UpdateDateColumn,
-} from 'typeorm';
-import BaseEntity from '../base.entity';
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { User } from './user';
+import BaseEntity from '../base.entity';
 
 @Entity('roles')
 export class Role extends BaseEntity<Role> {
@@ -27,7 +18,8 @@ export class Role extends BaseEntity<Role> {
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	@DeleteDateColumn({ select: false })
+	@Exclude()
+	@DeleteDateColumn()
 	deleted_at: Date;
 
 	@ManyToMany(() => User)
@@ -43,9 +35,4 @@ export class Role extends BaseEntity<Role> {
 		}
 	})
 	users: User[];
-
-	@BeforeInsert()
-    formatName() {
-        this.name = this.name.toUpperCase();
-    }
 }

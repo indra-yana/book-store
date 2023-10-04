@@ -1,18 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  BeforeInsert,
-  UpdateDateColumn,
-  CreateDateColumn,
-  DeleteDateColumn,
-  JoinTable,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryColumn, BeforeInsert, UpdateDateColumn, CreateDateColumn, DeleteDateColumn, JoinTable, ManyToMany } from 'typeorm';
+import { Exclude, Transform } from 'class-transformer';
+import { Role } from './role';
 import * as bcrypt from 'bcrypt';
 import BaseEntity from '../base.entity';
-import { Role } from './role';
-import { Exclude, Transform } from 'class-transformer';
 
 @Entity('users')
 export class User extends BaseEntity<User>  {
@@ -27,7 +17,7 @@ export class User extends BaseEntity<User>  {
 	username: string;
 
 	@Exclude()
-	@Column({ select: false })
+	@Column()
 	password: string;
 
 	@Column({ unique: true })
@@ -39,7 +29,8 @@ export class User extends BaseEntity<User>  {
 	@UpdateDateColumn()
 	updated_at: Date;
 
-	@DeleteDateColumn({ select: false })
+	@Exclude()
+	@DeleteDateColumn()
 	deleted_at: Date;
 
 	@Column({ default: null })

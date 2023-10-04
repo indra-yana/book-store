@@ -11,7 +11,7 @@ export class UsersTableSeeder1679300204635 implements MigrationInterface {
         users.push(new User({
             name: 'root',
             username: 'root',
-            email: 'root@comsys.id',
+            email: 'root@bookstore.com',
             password: 'secret',
         }));
 
