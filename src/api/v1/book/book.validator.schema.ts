@@ -25,3 +25,8 @@ export const validateBorrowSchema = Joi.object({
 	book_id: idSchema,
 	returned_at: Joi.string().required()
 });
+
+export const validateReturnedSchema = Joi.object({
+	borrower_id: idSchema,
+	book_id: idSchema,
+});

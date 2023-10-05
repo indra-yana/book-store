@@ -6,7 +6,7 @@ import { CreateBookDto } from './dto/create-book.dto';
 import { getSkip, paginate, PagingQuery } from 'src/core/helper/pagination';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { joiValidationFormat } from 'src/core/helper/helper';
+import { dateDiffInDays, joiValidationFormat } from 'src/core/helper/helper';
 import { LocaleService } from 'src/core/common/locale/locale.service';
 import { Not, Repository } from 'typeorm';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -14,6 +14,7 @@ import { User } from 'src/core/common/database/typeorm/entities/user';
 import InvariantException from 'src/core/exceptions/InvariantException';
 import NotFoundException from 'src/core/exceptions/NotFoundException';
 import ValidationException from 'src/core/exceptions/ValidationException';
+import { ReturnedBookDto } from './dto/returned-book.dto';
 
 @Injectable()
 export class BookService {
@@ -115,6 +116,56 @@ export class BookService {
 
         const result = await this.bookBorrowerRepository.save(data);
         return result;
+    }
+
+    async returnedBook(payloads: ReturnedBookDto) {
+        const { borrower_id: borrowerId, book_id: bookId } = payloads;
+
+        // The returned book is a book that the member has borrowed
+        const checkHasBorowerBook = await this.bookBorrowerRepository.findOneBy({
+            status: BOOK_STATUS.BORROWED,
+            borrower: {
+                id: borrowerId,
+            },
+            book: {
+                id: bookId,
+            }
+        })
+
+        if (!checkHasBorowerBook) {
+            throw new ValidationException({
+                message: this.locale.t('app.message.validation_fail'),
+                error: joiValidationFormat([
+                    {
+                        path: ['book_id'],
+                        message: 'The book that you borrow is not correct',
+                    }
+                ]),
+            }); 
+        }
+
+        const result = await this.bookBorrowerRepository.update(checkHasBorowerBook.id, {
+            ...checkHasBorowerBook,
+            status: BOOK_STATUS.RETURNED,
+        });
+
+        if (result.affected === 0) {
+            throw new InvariantException({
+                message: this.locale.t('app.message.updated_fail'),
+            });
+        }
+
+        // If the book is returned after more than 7 days, the member will be subject to a penalty. 
+        // Member with penalty cannot able to borrow the book for 3 days
+        if (dateDiffInDays(checkHasBorowerBook.returned_at, new Date()) >= 7) {
+            const date = new Date();
+            await this.userRepository.update(borrowerId, {
+                penalty: true,
+                penalty_until: date.setDate(date.getDate() + 7),
+            })
+        }
+        
+        return result.affected !== 0;
     }
 
     async checkIfMemberHasBorrowTwoBook(borrowerId: string, bookId: string) {

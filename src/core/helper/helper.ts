@@ -129,3 +129,12 @@ export function randomUserName() {
 export function randomPassword() {
     return nanoid(12);
 }
+
+export function dateDiffInDays(date1: string | Date, date2: string | Date) {
+    const firstDate = new Date(date1);
+    const secondDate = new Date(date2);
+    const millisecondsDiff = secondDate.getTime() - firstDate.getTime()
+    const daysDiff = Math.round(millisecondsDiff / (24 * 60 * 60 * 1000))
+
+    return daysDiff;
+}

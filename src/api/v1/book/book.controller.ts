@@ -1,10 +1,11 @@
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
-import { createBookSchema, updateBookSchema, validateBorrowSchema, validateIdSchema } from './book.validator.schema';
+import { createBookSchema, updateBookSchema, validateBorrowSchema, validateIdSchema, validateReturnedSchema } from './book.validator.schema';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ValidatorService } from 'src/core/common/validator/validator.service';
 import { BorrowBookDto } from './dto/borrow-book.dto';
+import { ReturnedBookDto } from './dto/returned-book.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({
@@ -88,6 +89,18 @@ export class BookController {
             this.validator.schema(validateBorrowSchema).validate(body);
 
             const result = await this.userService.borrowBook(body);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @Post('returned')
+    async returnedBook(@Body() body: ReturnedBookDto) {
+        try {
+            this.validator.schema(validateReturnedSchema).validate(body);
+
+            const result = await this.userService.returnedBook(body);
             return result;
         } catch (error) {
             throw error;
