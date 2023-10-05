@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
-import { dateColumn } from "../general-column.migration";
+import { dateColumn, idColumn } from "../general-column.migration";
 
 export class CreateBookBorrowersTable1696465987027 implements MigrationInterface {
 
@@ -8,6 +8,7 @@ export class CreateBookBorrowersTable1696465987027 implements MigrationInterface
             new Table({
                 name: "book_borrowers",
                 columns: [
+                    ...idColumn,
                     {
                         name: "borrower_id",
                         length: "16",
