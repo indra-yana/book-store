@@ -1,13 +1,19 @@
 import { Book } from 'src/core/common/database/typeorm/entities/book';
+import { BOOK_STATUS } from 'src/core/helper/constant';
+import { BookBorrower } from 'src/core/common/database/typeorm/entities/book-borrower';
+import { BorrowBookDto } from './dto/borrow-book.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { getSkip, paginate, PagingQuery } from 'src/core/helper/pagination';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { joiValidationFormat } from 'src/core/helper/helper';
 import { LocaleService } from 'src/core/common/locale/locale.service';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { User } from 'src/core/common/database/typeorm/entities/user';
 import InvariantException from 'src/core/exceptions/InvariantException';
 import NotFoundException from 'src/core/exceptions/NotFoundException';
+import ValidationException from 'src/core/exceptions/ValidationException';
 
 @Injectable()
 export class BookService {
@@ -15,6 +21,10 @@ export class BookService {
     constructor(
         @InjectRepository(Book)
         private bookRepository: Repository<Book>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
+        @InjectRepository(BookBorrower)
+        private bookBorrowerRepository: Repository<BookBorrower>,
         private locale: LocaleService,
     ) { }
 
@@ -85,6 +95,99 @@ export class BookService {
 
         const [data = null, total = 0] = result;
         return paginate(data, page, limit, total);
+    }
+
+    async borrowBook(payloads: BorrowBookDto) {
+        const { borrower_id, book_id, returned_at } = payloads;
+
+        await this.checkIfMemberHasBorrowTwoBook(borrower_id, book_id);
+
+        await this.checkIfBookHasBorrowByOther(borrower_id, book_id);
+
+        await this.checkIfMemberHasPinalized(borrower_id);
+
+        const data = new BookBorrower({
+            borrower_id,
+            book_id,
+            returned_at,
+            status: BOOK_STATUS.BORROWED,
+        });
+
+        const result = await this.bookBorrowerRepository.save(data);
+        return result;
+    }
+
+    async checkIfMemberHasBorrowTwoBook(borrowerId: string, bookId: string) {
+        // Members may not borrow more than 2 books
+        const checkHasTwoBook = await this.bookBorrowerRepository.countBy({
+            status: BOOK_STATUS.BORROWED,
+            borrower: {
+                id: borrowerId,
+            },
+            book: {
+                id: bookId,
+            }
+        })
+
+        if (checkHasTwoBook === 2) {
+            throw new ValidationException({
+                message: this.locale.t('app.message.validation_fail'),
+                error: joiValidationFormat([
+                    {
+                        path: ['borrower_id'],
+                        message: 'This member has borrowed two book.',
+                    }
+                ]),
+            });
+        }
+
+        return true;
+    }
+
+    async checkIfBookHasBorrowByOther(borrowerId: string, bookId: string) {
+        // Borrowed books are not borrowed by other members
+        const checkBookHasBorrowed = await this.bookBorrowerRepository.countBy({
+            status: BOOK_STATUS.BORROWED,
+            borrower: {
+                id: Not(borrowerId),
+            },
+            book: {
+                id: bookId,
+            }
+        })
+
+        if (checkBookHasBorrowed) {
+            throw new ValidationException({
+                message: this.locale.t('app.message.validation_fail'),
+                error: joiValidationFormat([
+                    {
+                        path: ['book_id'],
+                        message: 'The book has borrowed by the other',
+                    }
+                ]),
+            }); 
+        }
+    }
+
+    async checkIfMemberHasPinalized(memberId: string) {
+        // Check if member is currently not being penalized
+        const member = await this.userRepository.findOneBy({
+            id: memberId,
+        });
+
+        if (member?.penalty && member?.penalty_until) {
+            throw new ValidationException({
+                message: this.locale.t('app.message.validation_fail'),
+                error: joiValidationFormat([
+                    {
+                        path: ['borrower_id'],
+                        message: `Member is currently in penalized, can't borrow until ${member.penalty_until}`,
+                    }
+                ]),
+            });  
+        }
+
+        return true;
     }
 
 }

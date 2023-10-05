@@ -19,3 +19,9 @@ export const updateBookSchema = Joi.object({
 export const validateIdSchema = Joi.object({
 	id: idSchema,
 });
+
+export const validateBorrowSchema = Joi.object({
+	borrower_id: idSchema,
+	book_id: idSchema,
+	returned_at: Joi.string().required()
+});

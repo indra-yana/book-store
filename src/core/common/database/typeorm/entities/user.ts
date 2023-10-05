@@ -1,9 +1,9 @@
+import { BookBorrower } from './book-borrower';
 import { Entity, Column, PrimaryColumn, BeforeInsert, UpdateDateColumn, CreateDateColumn, DeleteDateColumn, JoinTable, ManyToMany, JoinColumn, OneToMany } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
 import { Role } from './role';
 import * as bcrypt from 'bcrypt';
 import BaseEntity from '../base.entity';
-import { BookBorrower } from './book-borrower';
 
 @Entity('users')
 export class User extends BaseEntity<User>  {
@@ -23,6 +23,12 @@ export class User extends BaseEntity<User>  {
 
 	@Column({ unique: true })
 	email: string;
+
+	@Column()
+	penalty: boolean;
+
+	@Column()
+	penalty_until: Date;
 
 	@CreateDateColumn()
 	created_at: Date;
@@ -57,7 +63,7 @@ export class User extends BaseEntity<User>  {
 	})
 	roles: Role[];
 
-	@OneToMany(() => BookBorrower, bookBorrower => bookBorrower.user)
+	@OneToMany(() => BookBorrower, bookBorrower => bookBorrower.borrower)
     @JoinColumn({ name: 'borrower_id', referencedColumnName: 'id' })
 	books: BookBorrower[];
 

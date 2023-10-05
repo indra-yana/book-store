@@ -34,7 +34,7 @@ export class BookBorrower extends BaseEntity<BookBorrower> {
 
     @ManyToOne(() => User, (user) => user.books)
     @JoinColumn({ name: 'borrower_id', referencedColumnName: 'id' })
-    user: User;
+    borrower: User;
 
     @ManyToOne(() => Book, (book) => book.borrowers)
     @JoinColumn({ name: 'book_id', referencedColumnName: 'id' })
