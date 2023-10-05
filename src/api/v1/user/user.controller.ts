@@ -105,4 +105,21 @@ export class UserController {
             throw error;
         }
     }
+
+    @Get('members')
+    async members(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ) {
+        try {
+            const result = await this.userService.members({
+                page,
+                limit,
+            });
+
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
 }

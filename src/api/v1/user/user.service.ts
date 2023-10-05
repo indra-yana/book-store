@@ -6,6 +6,7 @@ import { joiValidationFormat, randomName, randomPassword, randomUserName } from 
 import { LocaleService } from 'src/core/common/locale/locale.service';
 import { Repository } from 'typeorm';
 import { Role } from 'src/core/common/database/typeorm/entities/role';
+import { ROLE } from 'src/core/helper/constant';
 import { RoleService } from '../role/role.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src/core/common/database/typeorm/entities/user';
@@ -160,6 +161,28 @@ export class UserService {
         });
 
         const [data = null, total = 0] = result;
+        return paginate(data, page, limit, total);
+    }
+    
+    async members(query: PagingQuery) {
+        const { page, limit } = query;
+        const skip = getSkip(page, limit);
+        const result = await this.usersRepository.findAndCount({
+            where: {
+                roles: {
+                    name: ROLE.MEMBER,
+                }
+            },
+            relations: {
+                roles: true,
+                books: true,
+            },
+            take: limit,
+            skip
+        });
+
+        const [data = null, total = 0] = result;
+
         return paginate(data, page, limit, total);
     }
 

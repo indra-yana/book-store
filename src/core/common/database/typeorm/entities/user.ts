@@ -1,5 +1,5 @@
 import { BookBorrower } from './book-borrower';
-import { Entity, Column, PrimaryColumn, BeforeInsert, UpdateDateColumn, CreateDateColumn, DeleteDateColumn, JoinTable, ManyToMany, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn, BeforeInsert, UpdateDateColumn, CreateDateColumn, DeleteDateColumn, JoinTable, ManyToMany, JoinColumn, OneToMany, AfterLoad } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
 import { Role } from './role';
 import * as bcrypt from 'bcrypt';
@@ -66,5 +66,12 @@ export class User extends BaseEntity<User>  {
 	@OneToMany(() => BookBorrower, bookBorrower => bookBorrower.borrower)
     @JoinColumn({ name: 'borrower_id', referencedColumnName: 'id' })
 	books: BookBorrower[];
+
+	book_count: number;
+
+	@AfterLoad()
+	countBook() {
+		this.book_count = this.books?.length || 0;
+	}
 
 }
