@@ -1,9 +1,9 @@
 import { addUserRoleSchema, createUserSchema, updateUserSchema, validateIdSchema } from './user.validator.schema';
-import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { ValidatorService } from 'src/core/common/validator/validator.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({
@@ -17,7 +17,7 @@ export class UserController {
     ) { }
 
     @Post('create')
-    async create(@Req() request: any, @Body() body: CreateUserDto) {
+    async create(@Body() body: CreateUserDto) {
         try {
             this.validator.schema(createUserSchema).validate(body);
 
@@ -42,7 +42,7 @@ export class UserController {
     }
 
     @Put('update')
-    async update(@Req() request: any, @Body() body: UpdateUserDto) {
+    async update(@Body() body: UpdateUserDto) {
         try {
             this.validator.schema(updateUserSchema).validate(body);
 
