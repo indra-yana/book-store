@@ -1,0 +1,120 @@
+{
+    "info": {
+        "_postman_id": "b541f83d-079f-4615-97d7-56559b10f40a",
+        "name": "Book Store",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Member ",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:3000/api/v1/user/members",
+                    "path": [
+                        "api",
+                        "v1",
+                        "user",
+                        "members"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "3000"
+                }
+            }
+        },
+        {
+            "name": "Borrow Book",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://127.0.0.1:3000/api/v1/book/borrow",
+                    "path": [
+                        "api",
+                        "v1",
+                        "book",
+                        "borrow"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "3000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"borrower_id\": \"6rzngQD_sSlWz0Ta\",\n  \"book_id\": \"QDc8nJlRG1nO5piu\",\n  \"returned_at\": \"2023-10-08 19:00:00\"\n}"
+                }
+            }
+        },
+        {
+            "name": "Book",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://127.0.0.1:3000/api/v1/book/list",
+                    "path": [
+                        "api",
+                        "v1",
+                        "book",
+                        "list"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "3000"
+                }
+            }
+        },
+        {
+            "name": "Returned Book",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://127.0.0.1:3000/api/v1/book/returned",
+                    "path": [
+                        "api",
+                        "v1",
+                        "book",
+                        "returned"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "3000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"borrower_id\": \"6rzngQD_sSlWz0Ta\",\n  \"book_id\": \"QDc8nJlRG1nO5piu\"\n}"
+                }
+            }
+        }
+    ]
+}
