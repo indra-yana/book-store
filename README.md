@@ -113,6 +113,8 @@ Error Response :
 
 #### Available REST API
 
+- [Postman Collection](https://github.com/indra-yana/book-store/tree/master/postman)
+
 | Name | Method | Path |
 | --- | --- | --- | 
 | Get Member | GET | `/api/v1/user/members` |
@@ -123,10 +125,6 @@ Error Response :
 ### Author
 
 - [Indra Muliana](https://github.com/indra-yana) - <a href="mailto:indra.ndra26@gmail.com" target="_blank">indra.ndra26@gmail.com</a>
-
-### Postman Collection
-
-- TODO
 
 ### Testing
 
