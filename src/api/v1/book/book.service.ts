@@ -174,9 +174,6 @@ export class BookService {
             borrower: {
                 id: borrowerId,
             },
-            book: {
-                id: bookId,
-            }
         })
 
         if (checkHasTwoBook === 2) {
