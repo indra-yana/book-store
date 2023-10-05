@@ -1,8 +1,8 @@
 import { Book } from 'src/core/common/database/typeorm/entities/book';
+import { BookController } from './book.controller';
 import { BookService } from './book.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from '../user/user.controller';
 
 @Module({
     imports: [
@@ -10,6 +10,6 @@ import { UserController } from '../user/user.controller';
     ],
     exports: [BookService],
     providers: [BookService],
-    controllers: [UserController],
+    controllers: [BookController],
 })
 export class BookModule { }
