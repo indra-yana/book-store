@@ -6,7 +6,7 @@ import { joiValidationFormat, randomName, randomPassword, randomUserName } from 
 import { LocaleService } from 'src/core/common/locale/locale.service';
 import { Repository } from 'typeorm';
 import { Role } from 'src/core/common/database/typeorm/entities/role';
-import { ROLE } from 'src/core/helper/constant';
+import { BOOK_STATUS, ROLE } from 'src/core/helper/constant';
 import { RoleService } from '../role/role.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src/core/common/database/typeorm/entities/user';
@@ -171,6 +171,9 @@ export class UserService {
             where: {
                 roles: {
                     name: ROLE.MEMBER,
+                },
+                books: {
+                    status: BOOK_STATUS.BORROWED,
                 }
             },
             relations: {

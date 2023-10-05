@@ -6,7 +6,7 @@
   </a>
 </div>
 
-<h3 align="center">A <a href="http://nestjs.com/" target="_blank">NEST JS</a> SKELETON BACKEND REST API FOR STARTER KIT PROJECT</h3>
+<h3 align="center">A <a href="http://nestjs.com/" target="_blank">NEST JS</a> BOOK STORE MINI PROJECT</h3>
 
 <div align="center">
   <a href="https://nestjs.com" target="_blank">
@@ -15,84 +15,24 @@
   </a>
 </div>
 
-### About Project
-
-This is a starter kit project to quickly setup and start working on a new Nest JS REST API application. This is a boilerplate with common standard features like authentication, roles management, file management, and more. 
-
-This project will improve development process instead of build a nest js app from scratch, please read the complete [documentation](https://docs.nestjs.com) to know basic fundamental of nest framework.
-
-### Dev Stack
-
-- Nestjs v9.x
-- Nestjs platform-fastify v9.x
-- Passport Authentication 
-    - passport-local
-    - passport-jwt
-- Postgres
-- Type ORM
-- Multi Language Using [nestjs-i18n](https://nestjs-i18n.com) 
-- Joi Validation
-- Handlebars (View engine for email templating)
-- Node Mailer
-- Multer - uploading file
-- and more
-
-## Features
-
-- Basic Authentication
-    - Login
-    - Register
-    - Forgot Password
-    - Reset Password
-    - Email Verification
-    - Verify Account
-    - Password Confirmation
-    - Whoami
-- User Management 
-    - CRUD
-    - Add User Role
-    - Remove User Role
-- Role Management 
-    - CRUD
-- File Management 
-    - Upload
-    - Download
-    - Preview
-    - List of User Files
-- Modular system and clean architecture
-- Secure app HTTP headers using [helmet](https://helmetjs.github.io)
-- Multi storage filesystem (local, ftp)
-- Mailer Sender
-- Fully coded with Typescript
-- Database Migration using typeorm migration
-- Database seeders
-- Rate limiter
-- etc
-
 ### Installation
 
 ```bash
-git clone https://github.com/indra-yana/nestjs-starter.git
+git clone https://github.com/indra-yana/book-store.git
 
 cp .env.example .env
 
 setup .env
 
-create database
+create database using postgre
 
 npm install
 
 npm run migration:up
 
 npm run seed:up
-
-npm run start           // start development server
  
-npm run start:dev       // start development server in watch mode
-
-npm run build           // build the project
-
-npm run start:prod      // start production server
+npm run start:dev
 
 visit localhost:3000
 
@@ -115,7 +55,7 @@ npm run migration:down                        // Revert migration file
 
 npm run build                                 // build the project
 npm run start:dev                             // start development server
-npm run start:prod                            // start development server
+npm run start:prod                            // start production server
 ```
 
 ### API SPEC
@@ -133,7 +73,6 @@ http://localhost:3000
     "Content-Type": "application/json",     // Optional for some route
     "Accept": "application/json",           // Accept response as json
     "Accept-Language": "id",                // id|en
-    "Authorization": "bearer_token"         // for authenticated route
 }
 ```
 
@@ -176,30 +115,10 @@ Error Response :
 
 | Name | Method | Path |
 | --- | --- | --- | 
-| Login | POST | `/api/v1/auth/login` |
-| Register | POST | `/api/v1/auth/register` |
-| Password Request | POST | `/api/v1/auth/password/email` |
-| Password Reset | PUT | `/api/v1/auth/password/reset` |
-| Password Confirmation | POST | `/api/v1/auth/password/confirm` |
-| Verify Resend | POST | `/api/v1/auth/verify/resend` |
-| Verify | PUT | `/api/v1/auth/verify` |
-| Whoami | GET | `/api/v1/auth/whoami` |
-| Create User | POST | `/api/v1/user/create` |
-| Update User | PUT | `/api/v1/user/update` |
-| Delete User | DELETE | `/api/v1/user/delete` |
-| Add User Role | POST | `/api/v1/user/role/add` |
-| Remove User Role | DELETE | `/api/v1/user/role/remove` |
-| Show User | GET | `/api/v1/user/show` |
-| List User | GET | `/api/v1/user/list` |
-| Create Role | POST | `/api/v1/role/create` |
-| Update Role | PUT | `/api/v1/role/update` |
-| Delete Role | DELETE | `/api/v1/role/delete` |
-| Show Role | GET | `/api/v1/role/show` |
-| List Role | GET | `/api/v1/role/list` |
-| Upload | POST | `/api/v1/file/upload` |
-| Download | GET | `/api/v1/file/download/{file_id}` |
-| Preview | GET | `/api/v1/file/preview/{file_id}` |
-| User Files | GET | `/api/v1/file/user-files` |
+| Get Member | GET | `/api/v1/user/members` |
+| Get Book | GET | `/api/v1/book/list` |
+| Borrow Book | POST | `/api/v1/book/borrow` |
+| Returned Book | POST | `/api/v1/book/returned` |
 
 ### Author
 
@@ -207,7 +126,11 @@ Error Response :
 
 ### Postman Collection
 
-- <a href="mailto:indra.ndra26@gmail.com" target="_blank">Mail Me</a>
+- TODO
+
+### Testing
+
+- TODO
 
 ### License
 
