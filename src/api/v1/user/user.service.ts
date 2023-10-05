@@ -98,7 +98,6 @@ export class UserService {
                 username: true,
                 password,
                 email: true,
-                avatar: true,
                 created_at: true,
                 updated_at: true,
                 email_verified_at: true,
@@ -153,15 +152,7 @@ export class UserService {
         const { page, limit } = query;
         const skip = getSkip(page, limit);
         const result = await this.usersRepository.findAndCount({
-            select: {
-                files: {
-                    id: true,
-                    name: true,
-                    type: true,
-                }
-            },
             relations: {
-                files: true,
                 roles: true,
             },
             take: limit,
@@ -307,8 +298,6 @@ export class UserService {
             username = randomUserName(), 
             password = randomPassword(),
             email, 
-            avatar,
-            provider,
             email_verified_at,
         } = payloads;
 
@@ -330,8 +319,6 @@ export class UserService {
             username,
             email,
             password,
-            avatar,
-            provider,
             email_verified_at,
         }));
 
