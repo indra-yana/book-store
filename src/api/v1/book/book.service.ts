@@ -145,7 +145,6 @@ export class BookService {
         }
 
         const result = await this.bookBorrowerRepository.update(checkHasBorowerBook.id, {
-            ...checkHasBorowerBook,
             status: BOOK_STATUS.RETURNED,
         });
 
