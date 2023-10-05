@@ -1,5 +1,5 @@
-import { Book } from "../../../src/core/common/database/typeorm/entities/Book";
-import { MigrationInterface, QueryRunner } from "typeorm"
+import { Book } from "../../../src/core/common/database/typeorm/entities/book";
+import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class BookTableSeeder1696411375686 implements MigrationInterface {
 
