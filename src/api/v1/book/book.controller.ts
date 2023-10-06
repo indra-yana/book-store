@@ -1,12 +1,14 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { BookService } from './book.service';
+import { BorrowBookDto } from './dto/borrow-book.dto';
 import { CreateBookDto } from './dto/create-book.dto';
 import { createBookSchema, updateBookSchema, validateBorrowSchema, validateIdSchema, validateReturnedSchema } from './book.validator.schema';
+import { ReturnedBookDto } from './dto/returned-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { ValidatorService } from 'src/core/common/validator/validator.service';
-import { BorrowBookDto } from './dto/borrow-book.dto';
-import { ReturnedBookDto } from './dto/returned-book.dto';
 
+@ApiTags('Book')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({
     path: 'book',

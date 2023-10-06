@@ -114,6 +114,7 @@ Error Response :
 #### Available REST API
 
 - [Postman Collection](https://github.com/indra-yana/book-store/tree/master/postman)
+- [Swagger](http://127.0.0.1:3000/api/v1/doc)
 
 | Name | Method | Path |
 | --- | --- | --- | 

@@ -1,10 +1,12 @@
 import { addUserRoleSchema, createUserSchema, updateUserSchema, validateIdSchema } from './user.validator.schema';
+import { ApiTags } from '@nestjs/swagger';
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { ValidatorService } from 'src/core/common/validator/validator.service';
 
+@ApiTags('Member')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({
     path: 'user',
