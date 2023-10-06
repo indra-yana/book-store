@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { BookService } from './book.service';
 import { BorrowBookDto } from './dto/borrow-book.dto';
@@ -20,6 +20,7 @@ export class BookController {
         private validator: ValidatorService,
     ) { }
 
+    @ApiExcludeEndpoint()
     @Post('create')
     async create(@Body() body: CreateBookDto) {
         try {
@@ -32,6 +33,7 @@ export class BookController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Delete('delete')
     async delete(@Body('id') id: string) {
         try {
@@ -44,6 +46,7 @@ export class BookController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Put('update')
     async update(@Body() body: UpdateBookDto) {
         try {
@@ -73,6 +76,7 @@ export class BookController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Get('show/:id')
     async show(@Param('id') id: string) {
         try {

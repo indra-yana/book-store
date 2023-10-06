@@ -1,5 +1,5 @@
 import { addUserRoleSchema, createUserSchema, updateUserSchema, validateIdSchema } from './user.validator.schema';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,6 +18,7 @@ export class UserController {
         private validator: ValidatorService,
     ) { }
 
+    @ApiExcludeEndpoint()
     @Post('create')
     async create(@Body() body: CreateUserDto) {
         try {
@@ -31,6 +32,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Delete('delete')
     async delete(@Body('id') id: string) {
         try {
@@ -43,6 +45,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Put('update')
     async update(@Body() body: UpdateUserDto) {
         try {
@@ -56,6 +59,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Get('list')
     async all(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
@@ -72,6 +76,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Get('show/:id')
     async show(@Param('id') id: string) {
         try {
@@ -84,6 +89,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Post('role/add')
     async addRole(@Body() body: object) {
         try {
@@ -96,6 +102,7 @@ export class UserController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Delete('role/remove')
     async removeRole(@Body() body: object) {
         try {

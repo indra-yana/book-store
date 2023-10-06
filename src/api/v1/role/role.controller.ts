@@ -4,6 +4,7 @@ import { createRoleSchema, updateRoleSchema, validateIdSchema } from './role.val
 import { RoleService } from './role.service';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { ValidatorService } from 'src/core/common/validator/validator.service';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller({
@@ -16,6 +17,7 @@ export class RoleController {
         private validator: ValidatorService,
     ) { }
 
+    @ApiExcludeEndpoint()
     @Post('create')
     async create(@Body() body: CreateRoleDto) {
         try {
@@ -28,6 +30,7 @@ export class RoleController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Delete('delete')
     async delete(@Body('id') id: string) {
         try {
@@ -40,6 +43,7 @@ export class RoleController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Put('update')
     async update(@Body() body: UpdateRoleDto) {
         try {
@@ -52,6 +56,7 @@ export class RoleController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Get('list')
     async all() {
         try {
@@ -62,6 +67,7 @@ export class RoleController {
         }
     }
 
+    @ApiExcludeEndpoint()
     @Get('show/:id')
     async show(@Param('id') id: string) {
         try {
